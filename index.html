@@ -1,303 +1,79 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ananya Khanna | Aerospace & Flight Hardware</title>
-  
-  <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Space Grotesk"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            space: {
-              950: '#070a12',
-              900: '#0b0f19',
-              800: '#141c2e',
-            },
-            accent: {
-              cyan: '#38bdf8',
-              teal: '#2dd4bf',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    /* Background Canvas Stacking */
-    #space-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    .hud-grid {
-      background-size: 50px 50px;
-      background-image: 
-        linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
-    }
-
-    .glow-card {
-      transition: all 0.3s ease;
-    }
-    .glow-card:hover {
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
-      transform: translateY(-2px);
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviate with Ananya // Flight Terminal</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+<body>
 
-<body class="bg-space-950 text-slate-200 font-sans hud-grid min-h-screen relative selection:bg-sky-500 selection:text-black">
-
-  <!-- Interactive Star/Particle Canvas -->
-  <canvas id="space-canvas"></canvas>
-
-  <!-- Navigation Bar -->
-  <nav class="fixed top-0 left-0 w-full z-50 bg-space-950/80 backdrop-blur-md border-b border-slate-800/80">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="#" class="font-mono text-sm tracking-wider font-bold text-slate-100 flex items-center gap-2">
-        <span class="text-accent-cyan">A.</span>KHANNA
-        <span class="text-xs px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30 text-sky-400 font-mono">UT AUSTIN</span>
-      </a>
-      <ul class="flex gap-6 text-xs font-mono tracking-wider text-slate-400">
-        <li><a href="#about" class="hover:text-accent-cyan transition">ABOUT</a></li>
-        <li><a href="#experience" class="hover:text-accent-cyan transition">EXPERIENCE</a></li>
-        <li><a href="#projects" class="hover:text-accent-cyan transition">PROJECTS</a></li>
-        <li><a href="#skills" class="hover:text-accent-cyan transition">SKILLS</a></li>
-      </ul>
+  <!-- Top Telemetry Status Bar -->
+  <header class="telemetry-bar">
+    <div class="status-indicator">
+      <span class="pulse"></span> SYSTEM: ONLINE
     </div>
-  </nav>
+    <div class="telemetry-item">CALLSIGN: ANANYA</div>
+    <div class="telemetry-item">LICENSE: FAA PPL</div>
+  </header>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-6 pt-28">
-
-    <!-- Hero / Intro Section -->
-    <section class="py-20 border-b border-slate-800/60">
-      <div class="font-mono text-xs text-accent-cyan tracking-widest uppercase mb-4">
-        UT Austin · Aerospace Engineering · Flight Hardware
-      </div>
-      <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tight mb-6">
-        ANANYA KHANNA<span class="text-accent-cyan">.</span>
-      </h1>
-      <p class="text-xl md:text-2xl text-slate-400 max-w-3xl font-light leading-relaxed mb-8">
-        Focused on flight hardware fabrication, custom electronics mapping, and aerodynamic test apparatus. Building precision rocket systems and experimental rotor architectures.
-      </p>
-      <div class="flex flex-wrap gap-4 font-mono text-xs">
-        <a href="#projects" class="px-6 py-3 rounded bg-accent-cyan text-space-950 font-bold hover:bg-sky-300 transition">
-          VIEW PROJECTS →
-        </a>
-        <a href="#about" class="px-6 py-3 rounded border border-slate-700 hover:border-slate-500 text-slate-300 transition">
-          BACKGROUND
-        </a>
-      </div>
+  <!-- Main Terminal Header -->
+  <main class="terminal-container">
+    <section class="hero-section">
+      <h1 class="terminal-title">&gt; AVIATE_WITH_ANANYA<span class="cursor">_</span></h1>
+      <p class="subtitle">Aerospace Engineering // Hardware // Systems Integration</p>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 border-b border-slate-800/60">
-      <div class="font-mono text-xs text-accent-cyan tracking-widest uppercase mb-2">// 01. ABOUT</div>
-      <h2 class="text-3xl font-bold text-white mb-8">Background & Technical Focus</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="md:col-span-2 space-y-4 text-slate-400 leading-relaxed text-base">
-          <p>
-            I’m an aerospace engineering student with hands-on experience in CAD design, rapid prototyping, and flight systems integration. I enjoy taking complex mechanical and electrical sub-assemblies from initial concepts to physical fabrication.
-          </p>
-          <p>
-            My work spans structural flight hardware—such as custom rocket bulkheads, fin alignment jigs, and carbon fiber layups—as well as experimental research analyzing coaxial rotor thrust metrics and aerodynamic vibration profiles.
-          </p>
-        </div>
-        
-        <div class="border border-slate-800 bg-space-900/60 p-6 rounded-xl font-mono text-xs space-y-4">
-          <div>
-            <div class="text-slate-500 uppercase">DEGREE</div>
-            <div class="text-slate-200 font-semibold mt-1">BS, Aerospace Engineering</div>
-            <div class="text-slate-400">University of Texas at Austin</div>
-          </div>
-          <div class="border-t border-slate-800/80 pt-4">
-            <div class="text-slate-500 uppercase">CORE COMPETENCIES</div>
-            <div class="text-slate-300 mt-1">Flight Hardware · CAD Design · Wiring Logic · Coaxial Aerodynamics</div>
-          </div>
-        </div>
+    <!-- Interactive Navigation Tabs -->
+    <nav class="terminal-nav">
+      <button class="nav-btn active" onclick="openTab('hangar')">[01 // HANGAR]</button>
+      <button class="nav-btn" onclick="openTab('lab-logs')">[02 // LAB_LOGS]</button>
+      <button class="nav-btn" onclick="openTab('flight-logs')">[03 // FLIGHT_LOGS]</button>
+      <button class="nav-btn" onclick="openTab('mission-control')">[04 // MISSION_CONTROL]</button>
+    </nav>
+
+    <!-- TAB 1: HANGAR (Hardware & Design) -->
+    <div id="hangar" class="tab-content active">
+      <div class="card">
+        <h3>Bulkhead & Fin Alignment Systems</h3>
+        <span class="badge">Flight Hardware</span>
+        <p>Details on CAD designs, structural alignment jigs, and carbon fiber fabrication workflows.</p>
       </div>
-    </section>
-
-    <!-- Experience / Projects Section -->
-    <section id="projects" class="py-20 border-b border-slate-800/60">
-      <div class="font-mono text-xs text-accent-cyan tracking-widest uppercase mb-2">// 02. HARDWARE & RESEARCH</div>
-      <h2 class="text-3xl font-bold text-white mb-10">Engineering Achievements</h2>
-
-      <div class="space-y-8">
-        
-        <!-- Project Item 1 -->
-        <div class="glow-card border border-slate-800 bg-space-900/50 rounded-xl p-8">
-          <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 mb-4 font-mono text-xs">
-            <span class="text-accent-cyan font-semibold">// FLIGHT HARDWARE</span>
-            <span class="text-slate-500">ROCKETRY SUB-TEAM</span>
-          </div>
-          <h3 class="text-2xl font-bold text-white mb-3">High-Altitude Rocket Structural Assemblies</h3>
-          <p class="text-slate-400 mb-6 leading-relaxed">
-            Designed and fabricated structural bulkhead sections, precision fin alignment jigs, and custom carbon fiber components. Integrated mounting architectures for flight avionics and payload recovery systems.
-          </p>
-          <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-400">
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">SolidWorks</span>
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">Carbon Fiber</span>
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">Fin Alignment</span>
-          </div>
-        </div>
-
-        <!-- Project Item 2 -->
-        <div class="glow-card border border-slate-800 bg-space-900/50 rounded-xl p-8">
-          <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 mb-4 font-mono text-xs">
-            <span class="text-accent-cyan font-semibold">// AVIONICS & LOGIC</span>
-            <span class="text-slate-500">ELECTRONICS INTEGRATION</span>
-          </div>
-          <h3 class="text-2xl font-bold text-white mb-3">Electronic Mapping & Power/Sensor Distribution</h3>
-          <p class="text-slate-400 mb-6 leading-relaxed">
-            Developed logic diagrams and electronic routing layouts for onboard telemetry and sensors. Modeled custom battery and motor mounts in CAD for rapid 3D printing and physical bench testing.
-          </p>
-          <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-400">
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">CAD Design</span>
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">Wiring Mapping</span>
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">Mission Planner</span>
-          </div>
-        </div>
-
-        <!-- Project Item 3 -->
-        <div class="glow-card border border-slate-800 bg-space-900/50 rounded-xl p-8">
-          <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 mb-4 font-mono text-xs">
-            <span class="text-accent-cyan font-semibold">// RESEARCH LAB</span>
-            <span class="text-slate-500">AEROELASTICITY</span>
-          </div>
-          <h3 class="text-2xl font-bold text-white mb-3">Coaxial Rotor Thrust & Structural Vibration Analysis</h3>
-          <p class="text-slate-400 mb-6 leading-relaxed">
-            Executed experimental aerodynamic evaluations on ducted coaxial rotor configurations. Analyzed thrust generation across 2-blade (4.0 N baseline) and 4-blade configurations (5.5 N max) while recording high-RPM vibration spikes at upper testing ranges.
-          </p>
-          <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-400">
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">MATLAB</span>
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">Data Acquisition</span>
-            <span class="px-3 py-1 rounded bg-space-800 border border-slate-700/60">Experimental Aero</span>
-          </div>
-        </div>
-
+      <div class="card">
+        <h3>Electronics Logic & Avionics Mapping</h3>
+        <span class="badge">Systems Integration</span>
+        <p>Ground Control Station (GCS) setups, Mission Planner integration, and power/signal distribution logic.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-20">
-      <div class="font-mono text-xs text-accent-cyan tracking-widest uppercase mb-2">// 03. TOOLKIT</div>
-      <h2 class="text-3xl font-bold text-white mb-8">Technical Skills</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-        <div class="p-6 border border-slate-800 bg-space-900/40 rounded-xl">
-          <div class="text-accent-cyan font-bold mb-3">// CAD & FABRICATION</div>
-          <ul class="space-y-2 text-slate-400">
-            <li>• SolidWorks & Fusion</li>
-            <li>• Carbon Fiber Layups</li>
-            <li>• 3D Printing (Bambu Studio)</li>
-            <li>• Precision Jigs & Assemblies</li>
-          </ul>
-        </div>
-        <div class="p-6 border border-slate-800 bg-space-900/40 rounded-xl">
-          <div class="text-accent-cyan font-bold mb-3">// ANALYSIS & SOFTWARE</div>
-          <ul class="space-y-2 text-slate-400">
-            <li>• MATLAB Data Processing</li>
-            <li>• Mission Planner</li>
-            <li>• Aerodynamic Testing</li>
-            <li>• Telemetry Logging</li>
-          </ul>
-        </div>
-        <div class="p-6 border border-slate-800 bg-space-900/40 rounded-xl">
-          <div class="text-accent-cyan font-bold mb-3">// SYSTEMS & TESTING</div>
-          <ul class="space-y-2 text-slate-400">
-            <li>• Electronic Logic Mapping</li>
-            <li>• Power Distribution Wiring</li>
-            <li>• Motor & Battery Mounts</li>
-            <li>• Sensor Calibration</li>
-          </ul>
-        </div>
+    <!-- TAB 2: LAB LOGS (Research) -->
+    <div id="lab-logs" class="tab-content">
+      <div class="card">
+        <h3>Ducted Coaxial Rotor Research</h3>
+        <span class="badge">Aerodynamics</span>
+        <p>Experimental apparatus setups, data acquisition, and thrust/vibration analysis.</p>
       </div>
-    </section>
+    </div>
 
-    <footer class="py-12 border-t border-slate-800/80 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-slate-500 gap-4">
-      <div>© 2026 ANANYA KHANNA · AVIATE WITH ANANYA</div>
-      <div class="text-accent-cyan">www.aviatewithananya.com</div>
-    </footer>
+    <!-- TAB 3: FLIGHT LOGS (Blog & Outreach) -->
+    <div id="flight-logs" class="tab-content">
+      <div class="card">
+        <h3>Aviate with Ananya Journal</h3>
+        <span class="badge">STEM Outreach</span>
+        <p>Insights on aviation, engineering projects, and empowering women in STEM.</p>
+      </div>
+    </div>
 
-  </div>
+    <!-- TAB 4: MISSION CONTROL (About & Contact) -->
+    <div id="mission-control" class="tab-content">
+      <div class="card">
+        <h3>Operator Dossier</h3>
+        <p>Engineering background, flight experience, and resume highlights.</p>
+      </div>
+    </div>
+  </main>
 
-  <!-- Starfield Canvas Animation Script -->
-  <script>
-    const canvas = document.getElementById('space-canvas');
-    const ctx = canvas.getContext('2d');
-
-    let stars = [];
-    const numStars = 120;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function initStars() {
-      stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 1.5,
-          alpha: Math.random() * 0.8 + 0.2,
-          speed: Math.random() * 0.2 + 0.05
-        });
-      }
-    }
-
-    function drawStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#ffffff";
-
-      stars.forEach(star => {
-        ctx.globalAlpha = star.alpha;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Drift upward slowly
-        star.y -= star.speed;
-        if (star.y < 0) {
-          star.y = canvas.height;
-          star.x = Math.random() * canvas.width;
-        }
-      });
-
-      requestAnimationFrame(drawStars);
-    }
-
-    window.addEventListener('resize', () => {
-      resizeCanvas();
-      initStars();
-    });
-
-    resizeCanvas();
-    initStars();
-    drawStars();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

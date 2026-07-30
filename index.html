@@ -3,514 +3,216 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ANANYA KHANNA // Aerospace Portfolio</title>
+  <title>Option 1: Airfoil Track Visualizer</title>
   <style>
-    /* ==========================================
-       1. LIGHT THEME CORE VARIABLES
-       ========================================== */
     :root {
       --bg-light: #f8fafc;
       --card-bg: #ffffff;
-      --border-color: #e2e8f0;
+      --border-color: #cbd5e1;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --accent-blue: #0284c7;
-      --accent-sky: #38bdf8;
-      --accent-dark: #1e293b;
-      --font-mono: "Fira Code", "Cascadia Code", "Courier New", monospace;
+      --accent-cyan: #06b6d4;
+      --font-mono: "Fira Code", monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg-light); color: var(--text-main); font-family: sans-serif; display: flex; }
 
-    body {
-      background-color: var(--bg-light);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      line-height: 1.6;
-      /* Subtle technical grid background */
-      background-image: 
-        linear-gradient(rgba(2, 132, 199, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(2, 132, 199, 0.04) 1px, transparent 1px);
-      background-size: 30px 30px;
-    }
-
-    /* ==========================================
-       2. TOP NAVIGATION BAR
-       ========================================== */
-    .top-navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background: rgba(248, 250, 252, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 40px;
-      font-family: var(--font-mono);
-    }
-
-    .nav-logo {
-      font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      color: var(--text-main);
-    }
-
-    .top-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-
-    .top-links a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      transition: color 0.2s ease;
-    }
-
-    .top-links a:hover, .top-links a.active {
-      color: var(--accent-blue);
-      font-weight: 600;
-    }
-
-    /* ==========================================
-       3. TWO-COLUMN LAYOUT & SIDEBAR ROCKET
-       ========================================== */
-    .portfolio-container {
-      display: flex;
-      max-width: 1300px;
-      margin: 60px auto 0;
-      min-height: calc(100vh - 60px);
-    }
-
-    .main-content {
-      flex: 1;
-      padding: 60px 40px;
-      max-width: 900px;
-    }
-
-    .rocket-sidebar {
+    /* LEFT SIDEBAR WITH AIRFOIL PROFILE */
+    .airfoil-sidebar {
       width: 280px;
+      height: 100vh;
       position: sticky;
-      top: 60px;
-      height: calc(100vh - 60px);
-      border-left: 1px solid var(--border-color);
+      top: 0;
+      border-right: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 30px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.5);
     }
 
-    /* Rocket Graphic Progress Bar */
-    .rocket-graphic {
-      width: 80px;
-      height: 380px;
-      border: 2px solid var(--border-color);
-      border-radius: 40px 40px 8px 8px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      background: var(--card-bg);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-    }
-
-    .rocket-stage {
+    .sidebar-header {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      padding: 6px 10px;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      text-decoration: none;
-      width: 80%;
-      text-align: center;
-    }
-
-    .rocket-stage.active {
-      background: var(--accent-blue);
-      color: #ffffff;
-      font-weight: bold;
-      box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
-    }
-
-    /* ==========================================
-       4. SECTIONS & PORTFOLIO CARDS
-       ========================================== */
-    .section-block {
-      margin-bottom: 80px;
-      scroll-margin-top: 100px;
-    }
-
-    .section-tag {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: var(--accent-blue);
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 20px;
+      letter-spacing: 0.1em;
     }
 
-    .section-heading {
-      font-size: 2.2rem;
-      font-weight: 800;
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-    }
-
-    /* About Section Profile Grid */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    .profile-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    }
-
-    .profile-img-placeholder {
-      width: 100%;
-      height: 260px;
-      background: #e2e8f0;
+    /* Airfoil Container */
+    .airfoil-track-container {
+      position: relative;
+      width: 140px;
+      height: 480px;
       display: flex;
-      align-items: center;
       justify-content: center;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
     }
 
-    .profile-img-placeholder img {
+    /* Airfoil Vector Curve SVG */
+    .airfoil-svg {
       width: 100%;
       height: 100%;
-      object-fit: cover;
     }
 
-    .bio-text p {
-      margin-bottom: 16px;
-      color: var(--text-main);
-      font-size: 1.05rem;
-    }
-
-    /* Cards Grid */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 20px;
-    }
-
-    .portfolio-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 24px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .portfolio-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent-blue);
-      box-shadow: 0 12px 24px rgba(2, 132, 199, 0.1);
-    }
-
-    .card-badge {
-      display: inline-block;
+    /* Floating Waypoint Labels along the Airfoil */
+    .airfoil-node {
+      position: absolute;
       font-family: var(--font-mono);
       font-size: 0.72rem;
-      color: var(--accent-blue);
-      background: rgba(2, 132, 199, 0.08);
-      padding: 4px 8px;
-      border-radius: 4px;
-      margin-bottom: 12px;
-    }
-
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .card-desc {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-    }
-
-    .card-footer {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent-blue);
-      border-top: 1px solid var(--border-color);
-      padding-top: 12px;
+      text-decoration: none;
       display: flex;
-      justify-content: space-between;
-    }
-
-    /* ==========================================
-       5. MODAL SYSTEM
-       ========================================== */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(8px);
-      z-index: 200;
-      display: none;
-      justify-content: center;
       align-items: center;
-      padding: 20px;
+      gap: 6px;
+      transition: all 0.2s ease;
     }
 
-    .modal-overlay.active { display: flex; }
-
-    .modal-box {
-      background: var(--card-bg);
-      border-radius: 12px;
-      max-width: 800px;
-      width: 100%;
-      padding: 36px;
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    .airfoil-node.active {
+      color: var(--accent-blue);
+      font-weight: bold;
     }
 
-    .modal-close {
+    .node-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-color);
+      border: 2px solid white;
+    }
+
+    .airfoil-node.active .node-dot {
+      background: var(--accent-blue);
+      box-shadow: 0 0 8px var(--accent-blue);
+    }
+
+    /* Dynamic Gliding Flight Vector Marker */
+    .flight-vector-marker {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background: var(--bg-light);
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--accent-cyan);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: top 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    }
+
+    .flight-vector-marker::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -6px;
+      width: 6px;
+      height: 2px;
+      background: var(--accent-cyan);
+    }
+
+    /* Main Content Area Placeholder */
+    .main-viewport {
+      flex: 1;
+      padding: 60px 50px;
+    }
+
+    .preview-card {
+      background: white;
       border: 1px solid var(--border-color);
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      cursor: pointer;
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 200px; /* Spaced out to simulate scrolling */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP NAVBAR -->
-  <nav class="top-navbar">
-    <div class="nav-logo">ANANYA KHANNA</div>
-    <ul class="top-links">
-      <li><a href="#about" class="nav-item">ABOUT</a></li>
-      <li><a href="#hangar" class="nav-item">HANGAR</a></li>
-      <li><a href="#lablogs" class="nav-item">LAB LOGS</a></li>
-      <li><a href="#systems" class="nav-item">SYSTEMS</a></li>
-    </ul>
-  </nav>
+  <!-- SIDEBAR: OPTION 1 AIRFOIL TRACK -->
+  <aside class="airfoil-sidebar">
+    <div class="sidebar-header">// FLIGHT_PROFILE: NACA-0012</div>
 
-  <!-- TWO COLUMN CONTAINER -->
-  <div class="portfolio-container">
-    
-    <!-- MAIN CONTENT AREA -->
-    <main class="main-content">
+    <div class="airfoil-track-container">
+      <!-- SVG Airfoil Contour Curve -->
+      <svg class="airfoil-svg" viewBox="0 0 100 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Airfoil Camber Contour Path -->
+        <path d="M 50,20 C 85,70 90,180 50,280 C 15,180 15,70 50,20 Z" 
+              stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4" />
+      </svg>
 
-      <!-- ABOUT SECTION -->
-      <section id="about" class="section-block">
-        <div class="section-tag">— ABOUT</div>
-        <h2 class="section-heading">Background & Focus</h2>
+      <!-- Gliding Flight Path Vector Marker -->
+      <div class="flight-vector-marker" id="vector-marker" style="top: 30px; left: 50px;"></div>
 
-        <div class="about-grid">
-          <div class="profile-card">
-            <div class="profile-img-placeholder">
-              <!-- Replace with your picture link below -->
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Ananya Khanna Profile">
-            </div>
-          </div>
+      <!-- Waypoint Nodes along Airfoil Curve -->
+      <a href="#about" class="airfoil-node active" style="top: 20px; left: 65px;" id="node-about">
+        <span class="node-dot"></span> [00] About
+      </a>
+      
+      <a href="#hangar" class="airfoil-node" style="top: 100px; left: 85px;" id="node-hangar">
+        <span class="node-dot"></span> [01] Hangar
+      </a>
 
-          <div class="bio-text">
-            <p>I’m really drawn to structural design, composite manufacturing, and aerospace systems integration. I enjoy taking complex CAD models and translating them into flight-ready hardware.</p>
-            <p>Currently pursuing my Bachelor of Science in Aerospace Engineering at the University of Texas at Austin, focusing on aeroelasticity, flight hardware, and mission integration.</p>
-          </div>
-        </div>
-      </section>
+      <a href="#lablogs" class="airfoil-node" style="top: 200px; left: 80px;" id="node-lablogs">
+        <span class="node-dot"></span> [02] Lab Logs
+      </a>
 
-      <!-- HANGAR SECTION -->
-      <section id="hangar" class="section-block">
-        <div class="section-tag">[01 // HANGAR]</div>
-        <h2 class="section-heading">Flight Hardware & Design</h2>
-
-        <div class="cards-grid">
-          <article class="portfolio-card" onclick="openModal('bulkheads')">
-            <div>
-              <span class="card-badge">Flight Hardware</span>
-              <h3 class="card-title">Bulkhead & Fin Alignment Assemblies</h3>
-              <p class="card-desc">Structural CAD modeling, precision fin alignment jigs, and carbon fiber composite layup workflows.</p>
-            </div>
-            <div class="card-footer">
-              <span>MODULE 01-A</span>
-              <span>VIEW DETAILS &rarr;</span>
-            </div>
-          </article>
-
-          <article class="portfolio-card" onclick="openModal('avionics')">
-            <div>
-              <span class="card-badge">Systems Integration</span>
-              <h3 class="card-title">Avionics Logic & Power Distribution</h3>
-              <p class="card-desc">Ground Control Station telemetry setup, Mission Planner configuration, and electrical logic mapping.</p>
-            </div>
-            <div class="card-footer">
-              <span>MODULE 01-B</span>
-              <span>VIEW DETAILS &rarr;</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- LAB LOGS SECTION -->
-      <section id="lablogs" class="section-block">
-        <div class="section-tag">[02 // LAB_LOGS]</div>
-        <h2 class="section-heading">Research & Experimental Logs</h2>
-
-        <div class="cards-grid">
-          <article class="portfolio-card" onclick="openModal('aerodynamics')">
-            <div>
-              <span class="card-badge">Aeroelasticity</span>
-              <h3 class="card-title">Ducted Coaxial Rotor Thrust & Vibration Analysis</h3>
-              <p class="card-desc">Experimental evaluation of ducted rotor configurations, thrust efficiency metrics, and modal analysis.</p>
-            </div>
-            <div class="card-footer">
-              <span>MODULE 02-A</span>
-              <span>VIEW DETAILS &rarr;</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- SYSTEMS SECTION -->
-      <section id="systems" class="section-block">
-        <div class="section-tag">[03 // SYSTEMS]</div>
-        <h2 class="section-heading">Software & Controls</h2>
-
-        <div class="cards-grid">
-          <article class="portfolio-card" onclick="openModal('avionics')">
-            <div>
-              <span class="card-badge">Telemetry</span>
-              <h3 class="card-title">GCS Telemetry & Mission Logic</h3>
-              <p class="card-desc">Real-time data acquisition and ground tracking interfaces.</p>
-            </div>
-            <div class="card-footer">
-              <span>MODULE 03-A</span>
-              <span>VIEW DETAILS &rarr;</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- ROCKET PROGRESS SIDEBAR -->
-    <aside class="rocket-sidebar">
-      <div class="rocket-graphic">
-        <a href="#about" class="rocket-stage active" id="stage-about">About</a>
-        <a href="#hangar" class="rocket-stage" id="stage-hangar">Hangar</a>
-        <a href="#lablogs" class="rocket-stage" id="stage-lablogs">Lab Logs</a>
-        <a href="#systems" class="rocket-stage" id="stage-systems">Systems</a>
-      </div>
-    </aside>
-
-  </div>
-
-  <!-- SUBPAGE MODAL -->
-  <div class="modal-overlay" id="modal-overlay">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal()">[X] CLOSE</button>
-      <div id="modal-body"></div>
+      <a href="#systems" class="airfoil-node" style="top: 270px; left: 60px;" id="node-systems">
+        <span class="node-dot"></span> [03] Systems
+      </a>
     </div>
-  </div>
+  </aside>
 
-  <!-- INTERACTIVE SCROLL & ROCKET TRACKER JS -->
+  <!-- CONTENT VIEWPORT -->
+  <main class="main-viewport">
+    <div class="preview-card" id="about">
+      <h2>[00 // ABOUT] Leading Edge</h2>
+      <p style="color: var(--text-muted); margin-top: 8px;">Aerospace Engineering & Systems Integration...</p>
+    </div>
+
+    <div class="preview-card" id="hangar">
+      <h2>[01 // HANGAR] Upper Camber Flight Hardware</h2>
+      <p style="color: var(--text-muted); margin-top: 8px;">Fin Alignment Jigs & Carbon Fiber Layups...</p>
+    </div>
+
+    <div class="preview-card" id="lablogs">
+      <h2>[02 // LAB_LOGS] Maximum Thickness Pressure Region</h2>
+      <p style="color: var(--text-muted); margin-top: 8px;">Ducted Coaxial Rotor Research...</p>
+    </div>
+
+    <div class="preview-card" id="systems">
+      <h2>[03 // SYSTEMS] Trailing Edge Logic</h2>
+      <p style="color: var(--text-muted); margin-top: 8px;">GCS Telemetry & Mission Control...</p>
+    </div>
+  </main>
+
   <script>
-    // Highlight Rocket Stages & Top Nav Links based on scroll position
-    const sections = document.querySelectorAll('.section-block');
-    const rocketStages = document.querySelectorAll('.rocket-stage');
-    const navItems = document.querySelectorAll('.nav-item');
+    // Smooth Vector Gliding along Airfoil Contour
+    const marker = document.getElementById('vector-marker');
+    const waypoints = [
+      { id: 'about', top: 30, left: 50 },
+      { id: 'hangar', top: 110, left: 82 },
+      { id: 'lablogs', top: 210, left: 78 },
+      { id: 'systems', top: 280, left: 50 }
+    ];
 
     window.addEventListener('scroll', () => {
-      let currentSection = '';
+      const scrollPos = window.scrollY;
+      let activeIdx = 0;
 
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 120;
-        if (window.scrollY >= sectionTop) {
-          currentSection = section.getAttribute('id');
-        }
-      });
+      if (scrollPos > 150) activeIdx = 1;
+      if (scrollPos > 350) activeIdx = 2;
+      if (scrollPos > 550) activeIdx = 3;
 
-      rocketStages.forEach(stage => {
-        stage.classList.remove('active');
-        if (stage.getAttribute('id') === `stage-${currentSection}`) {
-          stage.classList.add('active');
-        }
-      });
+      const wp = waypoints[activeIdx];
+      marker.style.top = wp.top + 'px';
+      marker.style.left = wp.left + 'px';
 
-      navItems.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
-          link.classList.add('active');
-        }
+      document.querySelectorAll('.airfoil-node').forEach((node, i) => {
+        if (i === activeIdx) node.classList.add('active');
+        else node.classList.remove('active');
       });
     });
-
-    // Subpage Modal Routing
-    const details = {
-      bulkheads: {
-        title: "Bulkhead & Fin Alignment Assemblies",
-        text: "Structural CAD modeling, precision fin alignment jigs, and carbon fiber composite layup workflows."
-      },
-      avionics: {
-        title: "Avionics Logic & Power Distribution",
-        text: "Ground Control Station (GCS) telemetry setup, Mission Planner configuration, and electrical logic mapping."
-      },
-      aerodynamics: {
-        title: "Ducted Coaxial Rotor Research",
-        text: "Experimental thrust and modal analysis across ducted and open coaxial rotor configurations."
-      }
-    };
-
-    function openModal(key) {
-      const item = details[key];
-      if (!item) return;
-      
-      document.getElementById('modal-body').innerHTML = `
-        <h2 style="font-size: 1.8rem; margin-bottom: 12px;">${item.title}</h2>
-        <p style="color: var(--text-muted); line-height: 1.6;">${item.text}</p>
-      `;
-      document.getElementById('modal-overlay').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('modal-overlay').classList.remove('active');
-    }
   </script>
 </body>
 </html>

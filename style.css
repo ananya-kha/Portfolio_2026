@@ -1,12 +1,18 @@
 :root {
-  --bg-color: #0d1117;
-  --card-bg: #161b22;
+  --bg-color: #090d12;
+  --panel-bg: #11161d;
+  --card-bg: #161c24;
   --text-main: #c9d1d9;
   --accent-cyan: #58a6ff;
   --accent-green: #3fb950;
-  --border-color: #30363d;
+  --accent-amber: #d29922;
+  --border-color: #21262d;
   --font-mono: 'Fira Code', monospace;
   --font-sans: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -15,21 +21,55 @@ body {
   font-family: var(--font-sans);
   margin: 0;
   padding: 0;
-  /* Subtle background grid pattern */
-  background-image: linear-gradient(rgba(48, 54, 61, 0.2) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(48, 54, 61, 0.2) 1px, transparent 1px);
-  background-size: 30px 30px;
+  cursor: none; /* Replaced with HUD reticle */
+  background-image: linear-gradient(rgba(88, 166, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(88, 166, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* Telemetry Bar */
+/* Custom Reticle Cursor */
+.hud-cursor {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--accent-cyan);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: width 0.15s, height 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.hud-cursor-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--accent-cyan);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+
+body.hovering .hud-cursor {
+  width: 50px;
+  height: 50px;
+  border-color: var(--accent-green);
+  background-color: rgba(63, 185, 80, 0.08);
+}
+
+/* Top Telemetry Bar */
 .telemetry-bar {
   display: flex;
-  gap: 20px;
-  background-color: #010409;
+  gap: 24px;
+  background-color: #04070a;
   border-bottom: 1px solid var(--border-color);
-  padding: 10px 20px;
+  padding: 10px 24px;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .status-indicator {
@@ -45,80 +85,188 @@ body {
   background-color: var(--accent-green);
   border-radius: 50%;
   box-shadow: 0 0 8px var(--accent-green);
+  animation: pulse-anim 2s infinite;
 }
 
-/* Main Container */
-.terminal-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
+@keyframes pulse-anim {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
 }
 
+/* Dashboard 2-Column Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+  padding: 30px 20px;
+}
+
+/* Sticky PFD Telemetry Sidebar */
+.pfd-sidebar {
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 90px);
+}
+
+.pfd-card {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pfd-header {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+/* Artificial Horizon Graphic */
+.horizon-wrapper {
+  width: 100%;
+  height: 140px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.horizon-sky-ground {
+  width: 100%;
+  height: 200%;
+  position: absolute;
+  top: -50%;
+  left: 0;
+  background: linear-gradient(to bottom, #102a45 50%, #2b1d0c 50%);
+  transition: transform 0.1s ease-out;
+}
+
+.horizon-line {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-amber);
+}
+
+.aircraft-reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 10px;
+  border-bottom: 3px solid var(--accent-green);
+  border-left: 3px solid var(--accent-green);
+  border-right: 3px solid var(--accent-green);
+  z-index: 2;
+}
+
+/* Metrics Box */
+.pfd-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.metric-box {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 10px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #8b949e;
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.metric-value.highlight {
+  color: var(--accent-cyan);
+  font-size: 0.8rem;
+}
+
+/* Stream Log */
+.signal-stream {
+  background-color: #000;
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--accent-green);
+  border-radius: 4px;
+}
+
+/* Right Content Area */
 .terminal-title {
   font-family: var(--font-mono);
   color: var(--accent-cyan);
-  font-size: 2rem;
+  font-size: 2.2rem;
+  margin: 0;
 }
 
-.cursor {
-  animation: blink 1s infinite;
-}
-
+.cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
 .subtitle {
   color: #8b949e;
-  margin-bottom: 30px;
+  margin-top: 6px;
+  margin-bottom: 40px;
 }
 
-/* Tab Navigation */
-.terminal-nav {
-  display: flex;
-  gap: 10px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+.telemetry-section {
+  margin-bottom: 60px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border-color);
 }
 
-.nav-btn {
-  background: none;
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  padding: 8px 16px;
+.section-tag {
   font-family: var(--font-mono);
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: var(--accent-amber);
+  font-size: 0.85rem;
 }
 
-.nav-btn:hover, .nav-btn.active {
-  background-color: var(--accent-cyan);
-  color: #000;
-  border-color: var(--accent-cyan);
-  font-weight: 600;
-}
-
-/* Content Cards */
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: grid;
-  gap: 20px;
+.telemetry-section h2 {
+  color: #fff;
+  margin-top: 4px;
+  margin-bottom: 20px;
 }
 
 .card {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   padding: 20px;
-  border-radius: 4px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s, transform 0.2s;
 }
 
-.card h3 {
-  margin-top: 0;
-  color: #fff;
+.card:hover {
+  border-color: var(--accent-cyan);
+  transform: translateX(4px);
 }
+
+.card h3 { margin-top: 0; color: #fff; }
 
 .badge {
   display: inline-block;
@@ -126,7 +274,12 @@ body {
   color: var(--accent-cyan);
   border: 1px solid var(--accent-cyan);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   padding: 2px 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 850px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .pfd-sidebar { position: relative; top: 0; height: auto; }
 }

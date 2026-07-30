@@ -5,74 +5,132 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aviate with Ananya // Flight Terminal</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- Custom HUD Reticle Cursor -->
+  <div class="hud-cursor"></div>
+  <div class="hud-cursor-dot"></div>
 
   <!-- Top Telemetry Status Bar -->
   <header class="telemetry-bar">
     <div class="status-indicator">
-      <span class="pulse"></span> SYSTEM: ONLINE
+      <span class="pulse"></span> GCS: CONNECTED
     </div>
+    <div class="telemetry-item">SYS_VER: 2.4.0</div>
     <div class="telemetry-item">CALLSIGN: ANANYA</div>
     <div class="telemetry-item">LICENSE: FAA PPL</div>
   </header>
 
-  <!-- Main Terminal Header -->
-  <main class="terminal-container">
-    <section class="hero-section">
-      <h1 class="terminal-title">&gt; AVIATE_WITH_ANANYA<span class="cursor">_</span></h1>
-      <p class="subtitle">Aerospace Engineering // Hardware // Systems Integration</p>
-    </section>
+  <!-- Main Grid Layout -->
+  <div class="dashboard-grid">
+    
+    <!-- LEFT PANEL: Sticky Telemetry & Primary Flight Display (PFD) -->
+    <aside class="pfd-sidebar">
+      <div class="pfd-card">
+        <div class="pfd-header">PRIMARY FLIGHT DISPLAY</div>
+        
+        <!-- Animated Artificial Horizon -->
+        <div class="horizon-wrapper">
+          <div class="horizon-sky-ground" id="horizonBg">
+            <div class="horizon-line"></div>
+          </div>
+          <div class="aircraft-reticle"></div>
+        </div>
 
-    <!-- Interactive Navigation Tabs -->
-    <nav class="terminal-nav">
-      <button class="nav-btn active" onclick="openTab('hangar')">[01 // HANGAR]</button>
-      <button class="nav-btn" onclick="openTab('lab-logs')">[02 // LAB_LOGS]</button>
-      <button class="nav-btn" onclick="openTab('flight-logs')">[03 // FLIGHT_LOGS]</button>
-      <button class="nav-btn" onclick="openTab('mission-control')">[04 // MISSION_CONTROL]</button>
-    </nav>
+        <!-- Telemetry Gauges Readout -->
+        <div class="pfd-metrics">
+          <div class="metric-box">
+            <span class="metric-label">PITCH / ROLL</span>
+            <span class="metric-value" id="pitchVal">0.0°</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">ALTITUDE</span>
+            <span class="metric-value" id="altVal">0 FT</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">THRUST (MAX)</span>
+            <span class="metric-value" id="thrustVal">4.0 N</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">ACTIVE MODULE</span>
+            <span class="metric-value highlight" id="activeMod">01 // HANGAR</span>
+          </div>
+        </div>
 
-    <!-- TAB 1: HANGAR (Hardware & Design) -->
-    <div id="hangar" class="tab-content active">
-      <div class="card">
-        <h3>Bulkhead & Fin Alignment Systems</h3>
-        <span class="badge">Flight Hardware</span>
-        <p>Details on CAD designs, structural alignment jigs, and carbon fiber fabrication workflows.</p>
+        <!-- Simulated Telemetry Signal Feed -->
+        <div class="signal-stream">
+          <div class="stream-line">&gt; RX_PACKET: OK</div>
+          <div class="stream-line">&gt; LOGIC_STATE: NOMINAL</div>
+          <div class="stream-line" id="streamDynamic">&gt; SCROLL_PHYSICS: TRACKING</div>
+        </div>
       </div>
-      <div class="card">
-        <h3>Electronics Logic & Avionics Mapping</h3>
-        <span class="badge">Systems Integration</span>
-        <p>Ground Control Station (GCS) setups, Mission Planner integration, and power/signal distribution logic.</p>
-      </div>
-    </div>
+    </aside>
 
-    <!-- TAB 2: LAB LOGS (Research) -->
-    <div id="lab-logs" class="tab-content">
-      <div class="card">
-        <h3>Ducted Coaxial Rotor Research</h3>
-        <span class="badge">Aerodynamics</span>
-        <p>Experimental apparatus setups, data acquisition, and thrust/vibration analysis.</p>
-      </div>
-    </div>
+    <!-- RIGHT PANEL: Scrolling Terminal Content -->
+    <main class="content-scroll">
+      
+      <section class="hero-section">
+        <h1 class="terminal-title">&gt; AVIATE_WITH_ANANYA<span class="cursor">_</span></h1>
+        <p class="subtitle">Aerospace Engineering // Flight Hardware // Systems Logic</p>
+      </section>
 
-    <!-- TAB 3: FLIGHT LOGS (Blog & Outreach) -->
-    <div id="flight-logs" class="tab-content">
-      <div class="card">
-        <h3>Aviate with Ananya Journal</h3>
-        <span class="badge">STEM Outreach</span>
-        <p>Insights on aviation, engineering projects, and empowering women in STEM.</p>
-      </div>
-    </div>
+      <!-- Section 1: Hangar -->
+      <section class="telemetry-section" id="sec-hangar" data-module="01 // HANGAR" data-pitch="5.0" data-alt="1200" data-thrust="5.5 N">
+        <div class="section-tag">[01 // HANGAR]</div>
+        <h2>Flight Hardware & Structural Design</h2>
+        
+        <div class="card">
+          <h3>Bulkhead & Fin Alignment Assemblies</h3>
+          <span class="badge">Flight Hardware</span>
+          <p>Structural CAD modeling, precision fin alignment jigs, and carbon fiber composite layup workflows.</p>
+        </div>
 
-    <!-- TAB 4: MISSION CONTROL (About & Contact) -->
-    <div id="mission-control" class="tab-content">
-      <div class="card">
-        <h3>Operator Dossier</h3>
-        <p>Engineering background, flight experience, and resume highlights.</p>
-      </div>
-    </div>
-  </main>
+        <div class="card">
+          <h3>Avionics Logic & Power Distribution</h3>
+          <span class="badge">Systems Integration</span>
+          <p>Ground Control Station (GCS) telemetry setup, Mission Planner configuration, and electrical logic mapping.</p>
+        </div>
+      </section>
+
+      <!-- Section 2: Lab Logs -->
+      <section class="telemetry-section" id="sec-lab" data-module="02 // LAB_LOGS" data-pitch="-8.5" data-alt="2800" data-thrust="5.5 N">
+        <div class="section-tag">[02 // LAB_LOGS]</div>
+        <h2>Ducted Coaxial Rotor Research</h2>
+
+        <div class="card">
+          <h3>Aerodynamic Thrust & Vibration Analysis</h3>
+          <span class="badge">Aeroelasticity</span>
+          <p>Experimental apparatus design, data acquisition system mapping, and acoustic/vibration testing across coaxial rotor configurations.</p>
+        </div>
+      </section>
+
+      <!-- Section 3: Flight Logs -->
+      <section class="telemetry-section" id="sec-flight" data-module="03 // FLIGHT_LOGS" data-pitch="12.0" data-alt="4500" data-thrust="4.0 N">
+        <div class="section-tag">[03 // FLIGHT_LOGS]</div>
+        <h2>Journal & Outreach</h2>
+
+        <div class="card">
+          <h3>Aviate with Ananya</h3>
+          <span class="badge">STEM Outreach</span>
+          <p>Technical writing, flight log analysis, and initiatives promoting women in aerospace engineering.</p>
+        </div>
+      </section>
+
+      <!-- Section 4: Mission Control -->
+      <section class="telemetry-section" id="sec-mission" data-module="04 // MISSION_CTRL" data-pitch="0.0" data-alt="5200" data-thrust="0.0 N">
+        <div class="section-tag">[04 // MISSION_CONTROL]</div>
+        <h2>Operator Dossier</h2>
+
+        <div class="card">
+          <h3>System Profile</h3>
+          <p>Private Pilot flight hours, academic research records, and aerospace systems background.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
 
   <script src="script.js"></script>
 </body>
